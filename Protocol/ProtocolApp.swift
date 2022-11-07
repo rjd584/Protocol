@@ -12,52 +12,65 @@ import IOBluetooth
 
 @main
 struct ProtocolApp: App {
-    @State var filter = 1
-    @State var devices: [BluetoothDevice] = []
-    
     var body: some Scene {
         WindowGroup{
-            ContentView(filter: $filter, devices: $devices)
+            ContentView().environmentObject(SettingsStore())
         }.commands {
-            CommandMenu("Connection") {
-                Button("Refresh List"){
-                    getDevices()
-                }
-                Picker(selection: $filter, label: Text("Filter")) {
-                    ForEach(devices) { device in
-                        Text(device.name + " : " + device.address).tag(device.id)
-                    }
-                }
-                Button("Connect"){
-                    BluetoothConnection.instance.connect(address: devices[filter].address)
-                }
-            }
+            ConnectionMenu()
+            ConsoleMenu(settings: SettingsStore())
         }
+        
         
         Settings {
-            SettingsView()
+            SettingsView().environmentObject(SettingsStore())
         }
     }
-    
-    func getDevices(){
-        guard let btdevices = IOBluetoothDevice.pairedDevices() else {
-              print("No devices")
-              return
+}
+
+struct ConnectionMenu: Commands {
+    var body: some Commands{
+        CommandMenu("Connection"){
+            NavigationLink(destination: ConnectionView()){
+                Text("Show Detail View")
             }
-            var index = 0
-            for item in btdevices {
-              if let device = item as? IOBluetoothDevice {
-                  devices.append(BluetoothDevice(id: index,name: device.name, address: device.addressString))
-                  index += 1
-              }
-            }
+        }
     }
 }
+
+struct ConsoleMenu: Commands {
+    @ObservedObject var settings: SettingsStore
     
-    struct BluetoothDevice : Identifiable{
-        var id: Int
-        var name: String
-        var address: String
-        
+    var body: some Commands{
+        CommandMenu("Console"){
+            Toggle(isOn: $settings.consoleStampsEnabled) {
+                Text("Enable Console Stamps")
+            }.toggleStyle(CheckboxToggleStyle())
+        }
     }
+}
+
+struct BluetoothDevice : Identifiable{
+    var id: Int
+    var name: String
+    var address: String
     
+    
+    
+}
+
+func getDevices() -> [BluetoothDevice]{
+    var devices: [BluetoothDevice] = []
+    guard let btdevices = IOBluetoothDevice.pairedDevices() else {
+        print("No devices")
+        return devices
+    }
+    var index = 0
+    for item in btdevices {
+        if let device = item as? IOBluetoothDevice {
+            devices.append(BluetoothDevice(id: index,name: device.name, address: device.addressString))
+            index += 1
+        }
+    }
+    return devices
+}
+

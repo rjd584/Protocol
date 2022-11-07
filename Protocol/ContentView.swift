@@ -9,7 +9,6 @@ import SwiftUI
 import IOBluetooth
 import Combine
 
-
 struct Message : Equatable  {
     var id: String
     var message: String
@@ -43,6 +42,8 @@ struct Message : Equatable  {
 
 
 struct ContentView: View {
+    @EnvironmentObject var settings: SettingsStore
+
     @State private var wrapMessage: Bool = true
     @State private var sendhex: Bool = true
     @State private var receiveHex: Bool = false
@@ -52,30 +53,20 @@ struct ContentView: View {
     @State private var showStamp: Bool = true
     
     @StateObject var lines = Console.instance
-    @Binding var filter: Int
-    @Binding var devices: [BluetoothDevice]
+    //@State var filter: Int = 1
+    //@State var devices: [BluetoothDevice]
+    @State var terminal: SwiftTermViewWrapper = SwiftTermViewWrapper()
+    
     
     
     var body: some View {
         VStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack {
-                        ForEach(lines.lines, id: \.id) { line in
-                            Text(line.getMessage(stamped: showStamp))
-                                .textSelection(.enabled)
-                                .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                        }
-                        .onChange(of: lines.lines) { line in
-                            proxy.scrollTo(lines.lines[lines.lines.count-1].id)
-                        }
-                    }
-                }
-            }
+            terminal
+            //ConsoleView()
             HStack {
                 TextField("", text: $messageText)
                     .onSubmit {
-                        sendMessage()
+                        terminal.writeString(string: messageText)
                     }
                     .onReceive(Just(messageText)) { newValue in
                         if(sendhex){
@@ -86,7 +77,8 @@ struct ContentView: View {
                         }
                     }
                 Button("Send") {
-                    sendMessage()
+                    terminal.writeBytes(bytes: [0x30,0x31,0x32,0x33,0x34])
+                    //sendMessage()
                 }
             }
             HStack {
@@ -103,11 +95,16 @@ struct ContentView: View {
                 }.toggleStyle(CheckboxToggleStyle())
                 Toggle(isOn: $showStamp) {
                     Text("Show Stamp")
-                }.toggleStyle(CheckboxToggleStyle())
+                }.toggleStyle(CheckboxToggleStyle()).onChange(of: showStamp){ value in
+                    settings.consoleStampsEnabled = value
+                }
             }
         }
         .frame(minWidth: 700, minHeight: 300)
         .padding(10)
+        .onAppear(){
+            terminal.writeString(string: "Welcome to Protocol")
+        }
     }
     
     func sendMessage(){

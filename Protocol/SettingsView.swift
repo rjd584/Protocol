@@ -12,7 +12,7 @@ struct SettingsView: View {
         TabView {
             ProfileSettingsView()
                 .tabItem {
-                    Label("Profile", systemImage: "person.crop.circle")
+                    Label("Profile", systemImage: "person.crop.circle").environmentObject(SettingsStore())
                 }
             
             AppearanceSettingsView()
@@ -30,9 +30,15 @@ struct SettingsView: View {
 }
 
 struct ProfileSettingsView: View {
+    @EnvironmentObject var settings: SettingsStore
+    
     var body: some View {
-        Text("Profile Settings")
-            .font(.title)
+        Toggle(isOn: $settings.isNotificationEnabled) {
+            Text("Enable Notifications")
+        }.toggleStyle(CheckboxToggleStyle())
+        Toggle(isOn: $settings.consoleStampsEnabled) {
+            Text("Enable Console Stamps")
+        }.toggleStyle(CheckboxToggleStyle())
     }
 }
  

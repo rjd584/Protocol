@@ -14,6 +14,10 @@
 		D42EF5D329157AD4003285EE /* BluetoothConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42EF5D229157AD4003285EE /* BluetoothConnection.swift */; };
 		D473CF0929185E140083B686 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D473CF0829185E140083B686 /* SettingsView.swift */; };
 		D473CF0B29185E990083B686 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D473CF0A29185E990083B686 /* SettingsStore.swift */; };
+		D473CF0D29186F990083B686 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D473CF0C29186F990083B686 /* ConsoleView.swift */; };
+		D473CF0F291889DB0083B686 /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D473CF0E291889DB0083B686 /* ConnectionView.swift */; };
+		D473CF1329197B390083B686 /* SwiftTermWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D473CF1229197B390083B686 /* SwiftTermWrapper.swift */; };
+		D473CF1929197FCB0083B686 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = D473CF1829197FCB0083B686 /* SwiftTerm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,9 @@
 		D42EF5D229157AD4003285EE /* BluetoothConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConnection.swift; sourceTree = "<group>"; };
 		D473CF0829185E140083B686 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D473CF0A29185E990083B686 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		D473CF0C29186F990083B686 /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
+		D473CF0E291889DB0083B686 /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
+		D473CF1229197B390083B686 /* SwiftTermWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTermWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D473CF1929197FCB0083B686 /* SwiftTerm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +66,7 @@
 		D42EF5A5291475F8003285EE /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				D473CF0C29186F990083B686 /* ConsoleView.swift */,
 				D42EF5AF291475FB003285EE /* Protocol.entitlements */,
 				D42EF5D229157AD4003285EE /* BluetoothConnection.swift */,
 				D42EF5A8291475F8003285EE /* ContentView.swift */,
@@ -66,6 +75,8 @@
 				D473CF0829185E140083B686 /* SettingsView.swift */,
 				D42EF5AA291475FB003285EE /* Assets.xcassets */,
 				D42EF5AC291475FB003285EE /* Preview Content */,
+				D473CF0E291889DB0083B686 /* ConnectionView.swift */,
+				D473CF1229197B390083B686 /* SwiftTermWrapper.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -94,6 +105,9 @@
 			dependencies = (
 			);
 			name = Protocol;
+			packageProductDependencies = (
+				D473CF1829197FCB0083B686 /* SwiftTerm */,
+			);
 			productName = Protocol;
 			productReference = D42EF5A3291475F8003285EE /* Protocol.app */;
 			productType = "com.apple.product-type.application";
@@ -122,6 +136,9 @@
 				Base,
 			);
 			mainGroup = D42EF59A291475F8003285EE;
+			packageReferences = (
+				D473CF1729197FCB0083B686 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+			);
 			productRefGroup = D42EF5A4291475F8003285EE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -151,8 +168,11 @@
 				D42EF5A9291475F8003285EE /* ContentView.swift in Sources */,
 				D473CF0929185E140083B686 /* SettingsView.swift in Sources */,
 				D42EF5D329157AD4003285EE /* BluetoothConnection.swift in Sources */,
+				D473CF0F291889DB0083B686 /* ConnectionView.swift in Sources */,
 				D473CF0B29185E990083B686 /* SettingsStore.swift in Sources */,
+				D473CF0D29186F990083B686 /* ConsoleView.swift in Sources */,
 				D42EF5A7291475F8003285EE /* ProtocolApp.swift in Sources */,
+				D473CF1329197B390083B686 /* SwiftTermWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +366,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D473CF1729197FCB0083B686 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D473CF1829197FCB0083B686 /* SwiftTerm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D473CF1729197FCB0083B686 /* XCRemoteSwiftPackageReference "SwiftTerm" */;
+			productName = SwiftTerm;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D42EF59B291475F8003285EE /* Project object */;
 }
